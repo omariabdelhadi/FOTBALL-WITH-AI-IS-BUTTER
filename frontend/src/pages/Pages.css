@@ -336,6 +336,81 @@
   border-radius: 2px;
 }
 
+.sim-matchup-team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.sim-matchup-name {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+}
+
+.anomaly-team-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.pass-network-team-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.tactical-team-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.tactical-team-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.pass-network-team-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.anomaly-team-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
+.sim-matchup-vs {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #6b7280;
+  letter-spacing: 2px;
+}
+
+.sim-matchup-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 28px 24px;
+  margin-bottom: 24px;
+}
+
 @media (max-width: 768px) {
   .page-filters-grid.cols-2,
   .page-filters-grid.cols-3 { grid-template-columns: 1fr; }

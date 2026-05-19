@@ -1,120 +1,239 @@
 /* frontend/src/components/Navbar.css */
 
 .navbar {
-  background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
-  border-bottom: 1px solid rgba(0, 212, 170, 0.3);
-  padding: 0 40px;
+  background: linear-gradient(180deg, #0f0f1a 0%, #1a1a2e 100%);
+  border-right: 2px solid rgba(0, 212, 170, 0.2);
+  padding: 24px 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  height: 64px;
-  position: sticky;
+  width: 280px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
-}
-
-.navbar-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-}
-
-.navbar-logo-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #00d4aa, #00b894);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-}
-
-.navbar-logo-text {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.5px;
-}
-
-.navbar-logo-text span {
-  color: #00d4aa;
-}
-
-.navbar-links {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+  box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+  overflow-y: auto;
 }
 
 .navbar-link {
   text-decoration: none;
   color: #9ca3af;
-  padding: 8px 14px;
-  border-radius: 6px;
-  font-size: 0.875rem;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
   font-weight: 500;
-  transition: all 0.2s ease;
-  white-space: nowrap;
+  transition: all 0.3s ease;
+  text-align: left;
+  position: relative;
+  display: flex;          /* ← flex */
+  align-items: center;    /* ← centré */
+  gap: 10px;              /* ← espace icon/label */
+  white-space: normal;
+  border-left: 3px solid transparent;
+}
+
+.navbar-mobile-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  text-decoration: none;
+  margin-bottom: 40px;
+}
+
+.navbar-logo-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #00d4aa, #00b894);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+}
+
+.navbar-logo-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.navbar-logo-text span {
+  color: #00d4aa;
+  display: block;
+  font-size: 0.9rem;
+}
+
+.navbar-links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #9ca3af;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: left;
+  position: relative;
+  display: block;
+  white-space: normal;
+  border-left: 3px solid transparent;
 }
 
 .navbar-link:hover {
   color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(0, 212, 170, 0.1);
+  border-left-color: #00d4aa;
+  transform: translateX(4px);
 }
 
 .navbar-link.active {
   color: #00d4aa;
-  background-color: rgba(0, 212, 170, 0.1);
+  background: linear-gradient(90deg, rgba(0, 212, 170, 0.15), rgba(0, 212, 170, 0.05));
+  border-left-color: #00d4aa;
+  font-weight: 600;
 }
 
 .navbar-burger {
   display: none;
-  background: none;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
-  color: #9ca3af;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 1.1rem;
-  transition: all 0.2s;
-}
-
-.navbar-burger:hover {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .navbar-mobile {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  right: 0;
-  background: #1a1a2e;
-  border-bottom: 1px solid rgba(0, 212, 170, 0.2);
-  padding: 8px 0;
-  z-index: 99;
+  display: none;
 }
 
 .navbar-mobile-link {
-  display: block;
-  text-decoration: none;
-  color: #9ca3af;
-  padding: 12px 24px;
-  font-size: 0.9rem;
-  transition: all 0.2s;
+  display: none;
 }
 
-.navbar-mobile-link:hover {
-  color: #ffffff;
+/* Scrollbar styling */
+.navbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.navbar::-webkit-scrollbar-track {
   background: rgba(255, 255, 255, 0.05);
-  padding-left: 32px;
+}
+
+.navbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 170, 0.4);
+  border-radius: 3px;
+}
+
+.navbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 170, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .navbar {
+    width: 240px;
+  }
+
+  .navbar-logo {
+    margin-bottom: 30px;
+  }
+
+  .navbar-link {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+    
+  }
 }
 
 @media (max-width: 768px) {
-  .navbar { padding: 0 16px; }
-  .navbar-links { display: none; }
-  .navbar-burger { display: block; }
+  .navbar {
+    width: 70px;
+    padding: 16px 0;
+    align-items: center;
+  }
+
+  .navbar-logo {
+    margin-bottom: 20px;
+  }
+
+  .navbar-logo-text {
+    display: none;
+  }
+
+  .navbar-links {
+    padding: 0 8px;
+    gap: 4px;
+  }
+
+  .navbar-link {
+    padding: 10px 8px;
+    font-size: 0;
+    text-align: center;
+  }
+
+  .navbar-link::before {
+    content: "→";
+    font-size: 1.2rem;
+  }
+
+  .navbar-link:hover::before {
+    content: "✓";
+  }
+
+  .navbar-link.active::before {
+    color: #00d4aa;
+  }
+}
+
+/* ── TOGGLE OPEN/CLOSE ── */
+.navbar.collapsed {
+  width: 70px;
+}
+
+.navbar.collapsed .navbar-logo-text,
+.navbar.collapsed .navbar-link span,
+.navbar.collapsed .navbar-link-label {
+  display: none;
+}
+
+.navbar.collapsed .navbar-link {
+  justify-content: center;
+  padding: 12px 8px;
+}
+
+.navbar-toggle {
+  margin-top: auto;
+  padding: 16px;
+  background: none;
+  border: none;
+  color: #9ca3af;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: color 0.2s;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-toggle:hover {
+  color: #00d4aa;
+}
+
+.navbar {
+  transition: width 0.3s ease;
 }

@@ -1,6 +1,6 @@
 // frontend/src/App.js
 
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -9,17 +9,21 @@ import Performance from './pages/Performance';
 import Simulation from './pages/Simulation';
 import Anomaly from './pages/Anomaly';
 import Transfer from './pages/Transfer';
+import Clustering from './pages/Clustering';
 import Tactical from './pages/Tactical';
+import Ranking from './pages/Ranking';
 import Comparison from './pages/Comparison';
 import PassNetwork from './pages/PassNetwork';
 import './App.css';
 
 function App() {
+  const [collapsed, setCollapsed] = useState(false);
+
   return (
     <Router>
       <div className="app">
-        <Navbar />
-        <main className="main-content">
+        <Navbar onCollapse={setCollapsed} />
+        <main className={`main-content ${collapsed ? 'collapsed' : ''}`}>
           <Routes>
             <Route path="/"            element={<Home />} />
             <Route path="/lineup"      element={<Lineup />} />
@@ -27,9 +31,11 @@ function App() {
             <Route path="/simulation"  element={<Simulation />} />
             <Route path="/anomaly"     element={<Anomaly />} />
             <Route path="/transfer"    element={<Transfer />} />
-            <Route path="/comparison" element={<Comparison />} />
+            <Route path="/ranking"     element={<Ranking />} />
+            <Route path="/comparison"  element={<Comparison />} />
             <Route path="/tactical"    element={<Tactical />} />
-            <Route path="/passnetwork"    element={<PassNetwork />} />
+            <Route path="/clustering"  element={<Clustering />} />
+            <Route path="/passnetwork" element={<PassNetwork />} />
           </Routes>
         </main>
       </div>

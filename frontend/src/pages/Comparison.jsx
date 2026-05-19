@@ -1,6 +1,7 @@
 // frontend/src/pages/Comparison.jsx
 
 import React, { useEffect, useState } from 'react';
+import TeamLogo from '../components/TeamLogo';
 import { api } from '../api/api';
 import {
   RadarChart, Radar, PolarGrid, PolarAngleAxis,
@@ -200,7 +201,7 @@ function Comparison() {
                 <div style={{ padding: '16px', display: 'flex', gap: '16px',
                   flexWrap: 'wrap' }}>
                   {[
-                    { label: 'Équipe',    value: p.team },
+                    { label: 'Équipe',    value: <TeamLogo teamName={p.team} size={24} showName={true} /> },
                     { label: 'Ligue',     value: p.league },
                     { label: 'Position',  value: p.position },
                     { label: 'Âge',       value: p.age },

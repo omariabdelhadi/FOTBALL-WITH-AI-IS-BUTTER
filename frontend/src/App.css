@@ -14,16 +14,22 @@ body {
 
 .app {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-height: 100vh;
 }
 
+/* ── MAIN CONTENT (une seule déclaration) ── */
 .main-content {
   flex: 1;
   padding: 30px;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+  margin-left: 280px;
+  width: calc(100% - 280px);
+  transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.main-content.collapsed {
+  margin-left: 70px;
+  width: calc(100% - 70px);
 }
 
 /* ── CARDS ── */
@@ -203,4 +209,52 @@ tr:hover {
 .page-subtitle {
   color: #888;
   margin-bottom: 24px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 240px;
+    width: calc(100% - 240px);
+    padding: 24px;
+  }
+
+  .main-content.collapsed {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+    padding: 16px;
+  }
+
+  .main-content.collapsed {
+    margin-left: 70px;
+    width: calc(100% - 70px);
+  }
+
+  .page-title {
+    font-size: 1.5rem;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 12px;
+  }
+
+  .metric {
+    padding: 12px;
+  }
+
+  .metric-value {
+    font-size: 1.4rem;
+  }
 }

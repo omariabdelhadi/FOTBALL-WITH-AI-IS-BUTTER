@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import TeamLogo from '../components/TeamLogo';
 import { api } from '../api/api';
 import './Pages.css';
 
@@ -174,7 +175,9 @@ function Transfer() {
                       {recommended.players.map((p, i) => (
                         <tr key={i}>
                           <td>{p.name}</td>
-                          <td style={{ color: '#6b7280' }}>{p.team}</td>
+                          <td>
+                            <TeamLogo teamName={p.team} size={24} showName={true} />
+                          </td>
                           <td style={{ color: '#f59e0b', fontWeight: 600 }}>{p.rating}</td>
                           <td style={{ color: '#00d4aa', fontWeight: 600 }}>{p.estimated_value}M€</td>
                         </tr>

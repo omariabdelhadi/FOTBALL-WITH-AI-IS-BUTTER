@@ -1,19 +1,29 @@
+// Network.jsx
 import React, { useEffect, useState } from 'react';
+import TeamLogo from '../components/TeamLogo';
 import { api } from '../api/api';
 import './Pages.css';
+
+const TeamBanner = ({ teamName }) => (
+  <div className="pass-network-team-banner">
+    <TeamLogo teamName={teamName} size={64} showName={false} />
+    <span className="pass-network-team-name">{teamName}</span>
+  </div>
+);
 
 function PassNetwork() {
   const [leagues, setLeagues]       = useState([]);
   const [teams, setTeams]           = useState([]);
   const [selectedLeague, setLeague] = useState('');
   const [selectedTeam, setTeam]     = useState('');
+  const [resultTeam, setResultTeam] = useState('');
   const [result, setResult]         = useState(null);
   const [loading, setLoading]       = useState(false);
   const [error, setError]           = useState('');
 
   const posColor = {
     Goalkeeper: '#f59e0b', Defender: '#60a5fa',
-    Midfielder: '#00d4aa', Attacker: '#f87171',Forward:'#f87171'
+    Midfielder: '#00d4aa', Attacker: '#f87171', Forward: '#f87171'
   };
 
   useEffect(() => {
@@ -38,6 +48,7 @@ function PassNetwork() {
       const data = await api.analyzePassNetwork(selectedTeam);
       if (data.detail) throw new Error(data.detail);
       setResult(data);
+      setResultTeam(selectedTeam);
     } catch (e) {
       setError(e.message);
     }
@@ -138,6 +149,7 @@ function PassNetwork() {
 
       {result && (
         <div>
+          <TeamBanner teamName={resultTeam} />
           <div className="page-key-player">
             Joueur clé — {result.key_player}
           </div>

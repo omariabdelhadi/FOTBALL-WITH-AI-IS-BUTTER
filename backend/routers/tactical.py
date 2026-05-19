@@ -90,3 +90,68 @@ def analyze(team: str, formation: str):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("/popular_formations")
+def get_popular_formations():
+    """
+    Retourne la formation optimale moyenne par ligue
+    basée sur le TacticalFit de toutes les équipes.
+    """
+    try:
+        client = MongoClient(MONGO_URI)
+        db     = client["smartlineup"]
+        df     = pd.DataFrame(list(db["players"].find({}, {"_id": 0})))
+        df     = df[df["rating"] > 0].copy()
+
+        leagues = df["league"].unique().tolist()
+        result  = []
+
+        for league in leagues:
+            df_league    = df[df["league"] == league]
+            teams        = df_league["team"].unique().tolist()
+            formation_scores = {f: [] for f in FORMATIONS}
+
+            for team in teams[:10]:  # limiter pour la performance
+                df_team = df_league[df_league["team"] == team]
+                if len(df_team) < 3:
+                    continue
+                for f in FORMATIONS:
+                    df_fit = calculate_tactical_fit(df_team, f)
+                    if df_fit is not None:
+                        formation_scores[f].append(df_fit["tactical_fit"].mean())
+
+            # Meilleure formation pour cette ligue
+            best_f     = None
+            best_score = 0
+            scores_avg = {}
+
+            for f, scores in formation_scores.items():
+                if scores:
+                    avg = round(sum(scores) / len(scores), 4)
+                    scores_avg[f] = avg
+                    if avg > best_score:
+                        best_score = avg
+                        best_f     = f
+
+            # Top équipe de la ligue
+            top_team = (
+                df_league.groupby("team")["rating"]
+                .mean()
+                .idxmax()
+            )
+
+            result.append({
+                "league":          league,
+                "best_formation":  best_f,
+                "score":           best_score,
+                "formation_scores": scores_avg,
+                "top_team":        top_team,
+                "top_team_rating": round(
+                    float(df_league[df_league["team"] == top_team]["rating"].mean()), 3
+                )
+            })
+
+        return {"leagues": sorted(result, key=lambda x: x["score"], reverse=True)}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

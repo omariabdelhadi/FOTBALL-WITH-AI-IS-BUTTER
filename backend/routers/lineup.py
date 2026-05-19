@@ -117,6 +117,55 @@ def predict_lineup(team: str):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+@router.get("/stats")
+def get_lineup_stats():
+    """Statistiques globales pour la page Lineup"""
+    try:
+        client = MongoClient(MONGO_URI)
+        db     = client["smartlineup"]
+
+        df_players = pd.DataFrame(list(db["players"].find({}, {"_id": 0})))
+        df_players = df_players[df_players["rating"] > 0]
+
+        # Distribution des positions
+        pos_dist = df_players["position"].value_counts().to_dict()
+
+        # Top 3 équipes par rating moyen
+        top_teams = (
+            df_players.groupby("team")["rating"]
+            .mean()
+            .nlargest(3)
+            .reset_index()
+        )
+        top_teams_list = [
+            {
+                "team":   row["team"],
+                "league": df_players[df_players["team"] == row["team"]]["league"].iloc[0],
+                "rating": round(float(row["rating"]), 3)
+            }
+            for _, row in top_teams.iterrows()
+        ]
+
+        # Meilleur joueur global
+        best = df_players.nlargest(1, "rating").iloc[0]
+
+        return {
+            "total_players": len(df_players),
+            "total_teams":   df_players["team"].nunique(),
+            "pos_dist":      pos_dist,
+            "top_teams":     top_teams_list,
+            "best_player": {
+                "name":     best["player_name"],
+                "team":     best["team"],
+                "league":   best["league"],
+                "position": best["position"],
+                "rating":   round(float(best["rating"]), 3)
+            }
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 

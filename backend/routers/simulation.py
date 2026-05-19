@@ -93,3 +93,49 @@ def simulate(
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/featured")
+def get_featured_match():
+    """
+    Retourne un match vedette aléatoire avec ses probabilités
+    pour afficher par défaut sur la page Simulation.
+    """
+    try:
+        import random
+        client = MongoClient(MONGO_URI)
+        db     = client["smartlineup"]
+        df     = pd.DataFrame(list(db["players"].find({}, {"_id": 0})))
+
+        teams = df["team"].unique().tolist()
+        if len(teams) < 2:
+            raise HTTPException(status_code=404, detail="Pas assez d'équipes")
+
+        # Choisir 2 équipes aléatoires différentes
+        team1, team2 = random.sample(teams, 2)
+
+        # Probabilités basées sur les ratings moyens
+        r1 = float(df[df["team"] == team1]["rating"].mean())
+        r2 = float(df[df["team"] == team2]["rating"].mean())
+        total = r1 + r2
+
+        prob_win  = round(r1 / total * 0.7 + 0.15, 2)
+        prob_loss = round(r2 / total * 0.7 + 0.15, 2)
+        prob_draw = round(1 - prob_win - prob_loss, 2)
+
+        league1 = df[df["team"] == team1]["league"].iloc[0]
+        league2 = df[df["team"] == team2]["league"].iloc[0]
+
+        return {
+            "team1":      team1,
+            "team2":      team2,
+            "league1":    league1,
+            "league2":    league2,
+            "rating1":    round(r1, 3),
+            "rating2":    round(r2, 3),
+            "prob_win":   f"{prob_win * 100:.1f}%",
+            "prob_draw":  f"{prob_draw * 100:.1f}%",
+            "prob_loss":  f"{prob_loss * 100:.1f}%",
+        }
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

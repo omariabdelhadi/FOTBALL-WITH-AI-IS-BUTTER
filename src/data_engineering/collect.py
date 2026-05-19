@@ -200,11 +200,52 @@ def run_collection(league_id=61, season=2023, team_id=85, nb_matchs=10):
     print("=" * 50)
 
 
+def collect_all_teams_logos():
+    """
+    Collecte les IDs et logos de toutes les équipes
+    des 5 grands championnats.
+    """
+    leagues = {
+        39:  "Premier League",
+        61:  "Ligue 1",
+        78:  "Bundesliga",
+        135: "Serie A",
+        140: "La Liga"
+    }
+
+    all_teams = []
+
+    for league_id, league_name in leagues.items():
+        print(f"\n>>> Collecte équipes : {league_name}")
+        data = api_get("teams", params={
+            "league": league_id,
+            "season": 2022
+        })
+        time.sleep(7)
+
+        if data:
+            for team in data:
+                all_teams.append({
+                    "team_id":   team["team"]["id"],
+                    "team_name": team["team"]["name"],
+                    "logo":      team["team"]["logo"],
+                    "league":    league_name,
+                    "country":   team["team"]["country"]
+                })
+                print(f"  → {team['team']['name']} (ID: {team['team']['id']})")
+
+    save_json(all_teams, "teams_logos.json")
+    print(f"\n[TOTAL] {len(all_teams)} équipes collectées")
+    return all_teams
+
+
+
 # ─────────────────────────────────────────
 # EXÉCUTION DIRECTE
 # ─────────────────────────────────────────
 
 if __name__ == "__main__":
+    collect_all_teams_logos()
     run_collection(
         league_id=61,   # Ligue 1
         season=2023,    # Saison 2023/2024

@@ -1,6 +1,6 @@
 // frontend/src/api/api.js
 
-const BASE_URL = "https://aifotball-production.up.railway.app/api";
+const BASE_URL = "http://localhost:8000/api";
 
 export const api = {
 
@@ -55,4 +55,29 @@ export const api = {
 
   comparePlayers: (player1, player2) =>
     fetch(`${BASE_URL}/comparison/compare?player1=${encodeURIComponent(player1)}&player2=${encodeURIComponent(player2)}`).then(r => r.json()),
+  // ── RANKING ─────────────────────────────
+  getTopPlayers: (position, league, metric, topN) =>
+    fetch(`${BASE_URL}/ranking/top?position=${encodeURIComponent(position)}&league=${encodeURIComponent(league)}&metric=${encodeURIComponent(metric)}&top_n=${topN}`).then(r => r.json()),
+
+  getRankingMetrics: () =>
+    fetch(`${BASE_URL}/ranking/metrics`).then(r => r.json()),
+  // ── CLUSTERING ───────────────────────────
+  detectTalents: (league, position, maxAge) =>
+    fetch(`${BASE_URL}/clustering/talents?league=${encodeURIComponent(league)}&position=${encodeURIComponent(position)}&max_age=${maxAge}`).then(r => r.json()),
+
+  getClusters: (league, position) =>
+    fetch(`${BASE_URL}/clustering/clusters?league=${encodeURIComponent(league)}&position=${encodeURIComponent(position)}`).then(r => r.json()),
+  getBestProgression: () =>
+    fetch(`${BASE_URL}/performance/best_progression`).then(r => r.json()),
+  
+  getBestTeamAnomalies: () =>
+    fetch(`${BASE_URL}/anomaly/best_team`).then(r => r.json()),
+  getBestByPosition: () =>
+    fetch(`${BASE_URL}/ranking/best_by_position`).then(r => r.json()),
+  getLineupStats: () =>
+    fetch(`${BASE_URL}/lineup/stats`).then(r => r.json()),
+  getFeaturedMatch: () =>
+    fetch(`${BASE_URL}/simulation/featured`).then(r => r.json()),
+  getPopularFormations: () =>
+    fetch(`${BASE_URL}/tactical/popular_formations`).then(r => r.json()),
 };

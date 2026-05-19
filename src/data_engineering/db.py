@@ -5,6 +5,7 @@ import pandas as pd
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
+
 load_dotenv()
 
 MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017")
@@ -43,6 +44,21 @@ def insert_csv(db, filepath, collection_name):
 # ─────────────────────────────────────────
 # 3. CRÉER LES INDEX
 # ─────────────────────────────────────────
+
+def insert_teams_logos(db):
+    import json
+    path = "data/raw/teams_logos.json"
+    if not os.path.exists(path):
+        print("[SKIP] teams_logos.json introuvable")
+        return
+
+    with open(path, "r", encoding="utf-8") as f:
+        data = json.load(f)
+
+    collection = db["teams_logos"]
+    collection.drop()
+    collection.insert_many(data)
+    print(f"[INSÉRÉ] {len(data)} logos → collection 'teams_logos'")
 
 def create_indexes(db):
     print("\n>>> Création des index...")
@@ -95,3 +111,4 @@ def run_db():
 
 if __name__ == "__main__":
     run_db()
+    insert_teams_logos(get_db())

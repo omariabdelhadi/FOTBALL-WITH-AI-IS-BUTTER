@@ -16,6 +16,21 @@
   font-size: 0.95rem;
 }
 
+.perf-team-banner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.perf-team-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+}
+
 /* ── FILTERS ── */
 .perf-filters {
   background: #111827;
