@@ -36,6 +36,9 @@ smartlineup/
 
 <img width="1919" height="942" alt="image" src="https://github.com/user-attachments/assets/10f53f55-5660-433c-9cfa-fb61b63d857f" />
 
+<img width="1919" height="943" alt="image" src="https://github.com/user-attachments/assets/4016d28c-4107-4e2e-b3e3-8541ca413966" />
+
+
 
 ## Lancer le projet
 
